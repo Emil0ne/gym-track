@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: gym-track-db
+    environment:
+      POSTGRES_USER: gym_user
+      POSTGRES_PASSWORD: gym_secure_password123
+      POSTGRES_DB: gym_track_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,86 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String           @id @default(uuid())
+  email        String           @unique
+  passwordHash String
+  firstName    String
+  createdAt    DateTime         @default(now())
+  
+  workoutPlans WorkoutPlan[]
+  sessions     WorkoutSession[]
+  weightLogs   BodyMetricLog[]
+}
+
+model WorkoutPlan {
+  id          String           @id @default(uuid())
+  userId      String
+  name        String           
+  createdAt   DateTime         @default(now())
+  
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercises   PlanExercise[]
+  sessions    WorkoutSession[]
+}
+
+model PlanExercise {
+  id            String      @id @default(uuid())
+  planId        String
+  exerciseName  String      
+  targetSets    Int         
+  targetReps    String      
+  
+  plan          WorkoutPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+model WorkoutSession {
+  id          String             @id @default(uuid())
+  userId      String
+  planId      String?            
+  name        String             
+  duration    Int?               
+  createdAt   DateTime           @default(now()) 
+
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan        WorkoutPlan?       @relation(fields: [planId], references: [id], onDelete: SetNull)
+  exercises   ExecutedExercise[]
+}
+
+model ExecutedExercise {
+  id               String         @id @default(uuid())
+  sessionId        String
+  exerciseName     String         
+  
+  session          WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sets             ExerciseSet[]
+}
+
+model ExerciseSet {
+  id                 String           @id @default(uuid())
+  executedExerciseId String
+  setNumber          Int              
+  weight             Float            
+  reps               Int              
+  isCompleted        Boolean          @default(false)
+
+  executedExercise   ExecutedExercise @relation(fields: [executedExerciseId], references: [id], onDelete: Cascade)
+}
+
+model BodyMetricLog {
+  id        String   @id @default(uuid())
+  userId    String
+  weight    Float    
+  bicep     Float?   
+  chest     Float?
+  waist     Float?
+  createdAt DateTime @default(now()) 
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

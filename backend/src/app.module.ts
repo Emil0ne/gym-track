@@ -10,9 +10,10 @@ import { WorkoutSessionsModule } from './workout-sessions/workout-sessions.modul
 import { ExecutedExercisesModule } from './executed-exercises/executed-exercises.module';
 import { ExerciseSetsModule } from './exercise-sets/exercise-sets.module';
 import { BodyMetricsModule } from './body-metrics/body-metrics.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
-  imports: [UsersModule, PrismaModule, AuthModule, TrainingPlansModule, PlanExercisesModule, WorkoutSessionsModule, ExecutedExercisesModule, ExerciseSetsModule, BodyMetricsModule],
+  imports: [UsersModule, PrismaModule, AuthModule, TrainingPlansModule, PlanExercisesModule, WorkoutSessionsModule, ExecutedExercisesModule, ExerciseSetsModule, BodyMetricsModule, StatisticsModule],
   controllers: [AppController],
   providers: [AppService],
 })

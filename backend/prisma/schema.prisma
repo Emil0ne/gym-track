@@ -22,7 +22,8 @@ model User {
 model WorkoutPlan {
   id          String           @id @default(uuid())
   userId      String
-  name        String           
+  name        String
+  description String?          // <-- DODANE: Opcjonalny opis planu (np. "Ciężkie wielostawy")
   createdAt   DateTime         @default(now())
   
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -31,35 +32,36 @@ model WorkoutPlan {
 }
 
 model PlanExercise {
-  id            String      @id @default(uuid())
-  planId        String
-  exerciseName  String      
-  targetSets    Int         
-  targetReps    String      
+  id           String      @id @default(uuid())
+  planId       String
+  exerciseName String      
+  targetSets   Int         
+  targetReps   String   
+  restSeconds  Int?   
   
-  plan          WorkoutPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  plan         WorkoutPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
 
 model WorkoutSession {
-  id          String             @id @default(uuid())
-  userId      String
-  planId      String?            
-  name        String             
-  duration    Int?               
-  createdAt   DateTime           @default(now()) 
+  id        String             @id @default(uuid())
+  userId    String
+  planId    String?            
+  name      String             
+  duration  Int?               
+  createdAt DateTime           @default(now()) 
 
-  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan        WorkoutPlan?       @relation(fields: [planId], references: [id], onDelete: SetNull)
-  exercises   ExecutedExercise[]
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      WorkoutPlan?       @relation(fields: [planId], references: [id], onDelete: SetNull)
+  exercises ExecutedExercise[]
 }
 
 model ExecutedExercise {
-  id               String         @id @default(uuid())
-  sessionId        String
-  exerciseName     String         
+  id           String         @id @default(uuid())
+  sessionId    String
+  exerciseName String         
   
-  session          WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  sets             ExerciseSet[]
+  session      WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sets         ExerciseSet[]
 }
 
 model ExerciseSet {
@@ -77,7 +79,7 @@ model BodyMetricLog {
   id        String   @id @default(uuid())
   userId    String
   weight    Float    
-  bicep     Float?   
+  biceps     Float?   
   chest     Float?
   waist     Float?
   createdAt DateTime @default(now()) 

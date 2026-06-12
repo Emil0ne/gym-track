@@ -12,12 +12,16 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto) {
+    console.log('Dane przychodzące do logowania:', loginDto);
+
     const user = await this.prisma.user.findUnique({
       where: { email: loginDto.email },
     });
 
     if (!user) {
-      throw new UnauthorizedException('Nieprawidłowe dane logowania');
+      throw new UnauthorizedException(
+        'Nieprawidłowe dane logowania (brak usera)',
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -26,7 +30,9 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Nieprawidłowe dane logowania');
+      throw new UnauthorizedException(
+        'Nieprawidłowe dane logowania (złe hasło)',
+      );
     }
 
     const payload = { sub: user.id, email: user.email };
@@ -34,5 +40,17 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async register(loginDto: LoginDto) {
+    const hashedPassword = await bcrypt.hash(loginDto.password, 10);
+
+    return this.prisma.user.create({
+      data: {
+        email: loginDto.email,
+        passwordHash: hashedPassword,
+        firstName: 'Admin',
+      },
+    });
   }
 }

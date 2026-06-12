@@ -7,7 +7,13 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto) {
+    console.log('Co dostał kontroler:', loginDto); // <--- ZOBACZ TO W TERMINALU BACKENDU
     return this.authService.login(loginDto);
+  }
+
+  @Post('register')
+  async register(@Body() loginDto: LoginDto) {
+    return this.authService.register(loginDto);
   }
 }

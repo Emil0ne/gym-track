@@ -23,15 +23,15 @@ export class BodyMetricsService {
     return `This action returns all bodyMetrics`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} bodyMetric`;
   }
 
-  update(id: number, updateBodyMetricDto: UpdateBodyMetricDto) {
+  update(id: string, updateBodyMetricDto: UpdateBodyMetricDto) {
     return `This action updates a #${id} bodyMetric`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} bodyMetric`;
   }
 }

@@ -35,15 +35,23 @@ export class TrainingPlansService {
     return userPlans;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} trainingPlan`;
+  async findOne(id: string, userId: string) {
+    return this.prisma.workoutPlan.findFirst({
+      where: {
+        id: id,
+        userId: userId,
+      },
+      include: {
+        exercises: true,
+      },
+    });
   }
 
-  update(id: number, updateTrainingPlanDto: UpdateTrainingPlanDto) {
+  update(id: string, updateTrainingPlanDto: UpdateTrainingPlanDto) {
     return `This action updates a #${id} trainingPlan`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} trainingPlan`;
   }
 }

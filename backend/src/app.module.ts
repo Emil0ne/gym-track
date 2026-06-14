@@ -1,20 +1,27 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
-import { TrainingPlansModule } from './training-plans/training-plans.module';
-import { PlanExercisesModule } from './plan-exercises/plan-exercises.module';
-import { WorkoutSessionsModule } from './workout-sessions/workout-sessions.module';
-import { ExecutedExercisesModule } from './executed-exercises/executed-exercises.module';
-import { ExerciseSetsModule } from './exercise-sets/exercise-sets.module';
-import { BodyMetricsModule } from './body-metrics/body-metrics.module';
-import { StatisticsModule } from './statistics/statistics.module';
+import { UsersModule } from './users/users.module';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
-  imports: [UsersModule, PrismaModule, AuthModule, TrainingPlansModule, PlanExercisesModule, WorkoutSessionsModule, ExecutedExercisesModule, ExerciseSetsModule, BodyMetricsModule, StatisticsModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 5,
+      },
+    ]),
+    AuthModule,
+    UsersModule,
+  ],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -39,13 +39,13 @@ export class WorkoutSessionsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} workoutSession`;
   }
-  update(id: number, updateWorkoutSessionDto: UpdateWorkoutSessionDto) {
+  update(id: string, updateWorkoutSessionDto: UpdateWorkoutSessionDto) {
     return `This action updates a #${id} workoutSession`;
   }
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} workoutSession`;
   }
 }

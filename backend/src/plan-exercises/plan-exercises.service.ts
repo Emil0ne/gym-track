@@ -20,7 +20,7 @@ export class PlanExercisesService {
   }
 
   findAll() { return `This action returns all planExercises`; }
-  findOne(id: number) { return `This action returns a #${id} planExercise`; }
-  update(id: number, updatePlanExerciseDto: UpdatePlanExerciseDto) { return `This action updates a #${id} planExercise`; }
-  remove(id: number) { return `This action removes a #${id} planExercise`; }
+  findOne(id: string) { return `This action returns a #${id} planExercise`; }
+  update(id: string, updatePlanExerciseDto: UpdatePlanExerciseDto) { return `This action updates a #${id} planExercise`; }
+  remove(id: string) { return `This action removes a #${id} planExercise`; }
 }

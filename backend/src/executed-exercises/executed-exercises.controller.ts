@@ -32,7 +32,7 @@ export class ExecutedExercisesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.executedExercisesService.findOne(+id);
+    return this.executedExercisesService.findOne(id);
   }
 
   @Patch(':id')
@@ -40,11 +40,11 @@ export class ExecutedExercisesController {
     @Param('id') id: string,
     @Body() updateExecutedExerciseDto: UpdateExecutedExerciseDto,
   ) {
-    return this.executedExercisesService.update(+id, updateExecutedExerciseDto);
+    return this.executedExercisesService.update(id, updateExecutedExerciseDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.executedExercisesService.remove(+id);
+    return this.executedExercisesService.remove(id);
   }
 }

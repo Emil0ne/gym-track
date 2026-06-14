@@ -23,15 +23,15 @@ export class ExerciseSetsService {
     return `This action returns all exerciseSets`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} exerciseSet`;
   }
 
-  update(id: number, updateExerciseSetDto: UpdateExerciseSetDto) {
+  update(id: string, updateExerciseSetDto: UpdateExerciseSetDto) {
     return `This action updates a #${id} exerciseSet`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} exerciseSet`;
   }
 }

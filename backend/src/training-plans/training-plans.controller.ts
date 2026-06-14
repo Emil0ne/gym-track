@@ -34,8 +34,9 @@ export class TrainingPlansController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.trainingPlansService.findOne(+id);
+  findOne(@Request() req, @Param('id') id: string) {
+    const userId = req.user.sub;
+    return this.trainingPlansService.findOne(id, userId);
   }
 
   @Patch(':id')
@@ -43,11 +44,11 @@ export class TrainingPlansController {
     @Param('id') id: string,
     @Body() updateTrainingPlanDto: UpdateTrainingPlanDto,
   ) {
-    return this.trainingPlansService.update(+id, updateTrainingPlanDto);
+    return this.trainingPlansService.update(id, updateTrainingPlanDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.trainingPlansService.remove(+id);
+    return this.trainingPlansService.remove(id);
   }
 }

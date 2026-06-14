@@ -19,7 +19,9 @@ export class UsersService {
       data: {
         email: createUserDto.email,
         firstName: createUserDto.firstName,
-        passwordHash: hashedPassword,
+        passwordHash: 'jakis-hash',
+        lastName: 'Brak',
+        dateOfBirth: new Date(),
       },
     });
 
@@ -29,13 +31,13 @@ export class UsersService {
   findAll() {
     return `This action returns all users`;
   }
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} user`;
   }
-  update(id: number, updateDto: any) {
+  update(id: string, updateDto: any) {
     return `This action updates a #${id} user`;
   }
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }

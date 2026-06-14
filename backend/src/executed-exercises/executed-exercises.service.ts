@@ -20,15 +20,15 @@ export class ExecutedExercisesService {
     return `This action returns all executedExercises`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} executedExercise`;
   }
 
-  update(id: number, updateExecutedExerciseDto: UpdateExecutedExerciseDto) {
+  update(id: string, updateExecutedExerciseDto: UpdateExecutedExerciseDto) {
     return `This action updates a #${id} executedExercise`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} executedExercise`;
   }
 }

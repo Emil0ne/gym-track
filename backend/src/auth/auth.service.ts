@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -42,14 +43,16 @@ export class AuthService {
     };
   }
 
-  async register(loginDto: LoginDto) {
-    const hashedPassword = await bcrypt.hash(loginDto.password, 10);
+  async register(registerDto: RegisterDto) {
+    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
 
     return this.prisma.user.create({
       data: {
-        email: loginDto.email,
+        email: registerDto.email,
         passwordHash: hashedPassword,
-        firstName: 'Admin',
+        firstName: registerDto.firstName,
+        lastName: registerDto.lastName,
+        dateOfBirth: new Date(registerDto.dateOfBirth), // Prisma sama to przekonwertuje
       },
     });
   }

@@ -32,7 +32,7 @@ export class BodyMetricsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bodyMetricsService.findOne(+id);
+    return this.bodyMetricsService.findOne(id);
   }
 
   @Patch(':id')
@@ -40,11 +40,11 @@ export class BodyMetricsController {
     @Param('id') id: string,
     @Body() updateBodyMetricDto: UpdateBodyMetricDto,
   ) {
-    return this.bodyMetricsService.update(+id, updateBodyMetricDto);
+    return this.bodyMetricsService.update(id, updateBodyMetricDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bodyMetricsService.remove(+id);
+    return this.bodyMetricsService.remove(id);
   }
 }

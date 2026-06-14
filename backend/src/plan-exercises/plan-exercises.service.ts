@@ -12,6 +12,7 @@ export class PlanExercisesService {
       data: {
         planId: createPlanExerciseDto.planId,
         exerciseName: createPlanExerciseDto.exerciseName,
+        dayName: 'Default Day',
         targetSets: createPlanExerciseDto.targetSets,
         targetReps: createPlanExerciseDto.targetReps,
         restSeconds: createPlanExerciseDto.restSeconds,
@@ -19,8 +20,16 @@ export class PlanExercisesService {
     });
   }
 
-  findAll() { return `This action returns all planExercises`; }
-  findOne(id: string) { return `This action returns a #${id} planExercise`; }
-  update(id: string, updatePlanExerciseDto: UpdatePlanExerciseDto) { return `This action updates a #${id} planExercise`; }
-  remove(id: string) { return `This action removes a #${id} planExercise`; }
+  findAll() {
+    return `This action returns all planExercises`;
+  }
+  findOne(id: string) {
+    return `This action returns a #${id} planExercise`;
+  }
+  update(id: string, updatePlanExerciseDto: UpdatePlanExerciseDto) {
+    return `This action updates a #${id} planExercise`;
+  }
+  remove(id: string) {
+    return `This action removes a #${id} planExercise`;
+  }
 }

@@ -11,9 +11,10 @@ model User {
   id           String           @id @default(uuid())
   email        String           @unique
   passwordHash String
-  firstName    String           // Imię
-  lastName     String           // Nazwisko (NOWE)
-  dateOfBirth  DateTime         // Data urodzenia (NOWE)
+  firstName    String           
+  lastName     String           
+  dateOfBirth  DateTime     
+  height       Float?    
   createdAt    DateTime         @default(now())
   
   workoutPlans WorkoutPlan[]
@@ -25,7 +26,7 @@ model WorkoutPlan {
   id          String           @id @default(uuid())
   userId      String
   name        String
-  description String?          // <-- DODANE: Opcjonalny opis planu (np. "Ciężkie wielostawy")
+  description String?          
   createdAt   DateTime         @default(now())
   
   user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -36,6 +37,7 @@ model WorkoutPlan {
 model PlanExercise {
   id           String      @id @default(uuid())
   planId       String
+  dayName      String
   exerciseName String      
   targetSets   Int         
   targetReps   String   
@@ -87,4 +89,13 @@ model BodyMetricLog {
   createdAt DateTime @default(now()) 
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Exercise {
+  id           String   @id @default(uuid())
+  nameEn       String   @unique
+  namePl       String
+  targetMuscle String
+  equipment    String
+  createdAt    DateTime @default(now())
 }

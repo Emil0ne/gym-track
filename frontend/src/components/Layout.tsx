@@ -11,7 +11,7 @@ export default function Layout() {
 
   const navLinks = [
     { path: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { path: '/plans', label: 'Workout Plans', icon: '📝' },
+    { path: '/workout-plans', label: 'Workout Plans', icon: '📝' }, 
     { path: '/history', label: 'History', icon: '⏱️' },
   ];
 

@@ -1,54 +1,50 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Headers, UnauthorizedException } from '@nestjs/common';
 import { TrainingPlansService } from './training-plans.service';
-import { CreateTrainingPlanDto } from './dto/create-training-plan.dto';
-import { UpdateTrainingPlanDto } from './dto/update-training-plan.dto';
-import { AuthGuard } from '../auth/auth/auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
-@UseGuards(AuthGuard)
 @Controller('training-plans')
 export class TrainingPlansController {
-  constructor(private readonly trainingPlansService: TrainingPlansService) {}
+  constructor(
+    private readonly trainingPlansService: TrainingPlansService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  @Post()
-  create(@Request() req, @Body() createTrainingPlanDto: CreateTrainingPlanDto) {
-    const userId = req.user.sub;
-
-    return this.trainingPlansService.create(userId, createTrainingPlanDto);
+  private getUserIdFromToken(authHeader: string): string {
+    if (!authHeader) throw new UnauthorizedException('Brak tokenu dostępu');
+    try {
+      const token = authHeader.split(' ')[1].replace(/"/g, '');
+      const decoded = this.jwtService.verify(token);
+      return decoded.sub;
+    } catch {
+      throw new UnauthorizedException('Nieprawidłowy token');
+    }
   }
 
   @Get()
-  findAll(@Request() req) {
-    const userId = req.user.sub;
-
-    return this.trainingPlansService.findAll(userId);
+  async getPlans(@Headers('authorization') authHeader: string) {
+    const userId = this.getUserIdFromToken(authHeader);
+    return this.trainingPlansService.getUserPlans(userId);
   }
 
-  @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
-    const userId = req.user.sub;
-    return this.trainingPlansService.findOne(id, userId);
+  @Post()
+  async createPlan(@Headers('authorization') authHeader: string, @Body() data: any) {
+    const userId = this.getUserIdFromToken(authHeader);
+    return this.trainingPlansService.createPlan(userId, data);
   }
 
-  @Patch(':id')
-  update(
+  @Put(':id')
+  async updatePlan(
     @Param('id') id: string,
-    @Body() updateTrainingPlanDto: UpdateTrainingPlanDto,
+    @Headers('authorization') authHeader: string,
+    @Body() data: any,
   ) {
-    return this.trainingPlansService.update(id, updateTrainingPlanDto);
+    const userId = this.getUserIdFromToken(authHeader);
+    return this.trainingPlansService.updatePlan(id, userId, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.trainingPlansService.remove(id);
+  async deletePlan(@Param('id') id: string, @Headers('authorization') authHeader: string) {
+    const userId = this.getUserIdFromToken(authHeader);
+    return this.trainingPlansService.deletePlan(id, userId);
   }
 }
